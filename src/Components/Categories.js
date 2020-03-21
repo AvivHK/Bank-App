@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Category from './Category';
+import PieChart from './PieChart';
 
 class Categories extends Component {
 
@@ -13,14 +13,12 @@ class Categories extends Component {
     getState() {
         const trans = this.props.trans
         let result = [];
-        let counter = 0
         trans.reduce(function (res, value) {
             if (!res[value.category]) {
-                counter++;
-                res[value.category] = { category: value.category, amount: 0, id: counter };
+                res[value.category] = { label: value.category, y: 0};
                 result.push(res[value.category])
             }
-            res[value.category].amount += value.amount;
+            res[value.category].y += value.amount;
             return res;
         }, {});
         return result
@@ -30,7 +28,7 @@ class Categories extends Component {
         let cate = this.getState()
         return (
             <div>
-                {cate.map(c => <Category cate={c} key={c.id} />)}
+                <PieChart categories={cate} />
             </div>
         );
     }
